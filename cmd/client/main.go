@@ -11,14 +11,14 @@ import (
 func main() {
 	opts := []grpc.DialOption{grpc.WithTransportCredentials(insecure.NewCredentials())}
 
-	clientConn, err := grpc.NewClient(":9000", opts...)
+	conn, err := grpc.NewClient(":9000", opts...)
 	if err != nil {
 		log.Fatalf("Не удалось установить соединение: %s", err.Error())
 	}
 
-	defer clientConn.Close()
+	defer conn.Close()
 
-	c := notification.NewNotificationServiceClient(clientConn)
+	c := notification.NewNotificationServiceClient(conn)
 
 	response, err := c.Notify(context.Background(), &notification.NotificationRequest{Message: "Ниндзяго"})
 	if err != nil {
